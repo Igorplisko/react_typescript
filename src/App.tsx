@@ -1,65 +1,35 @@
-
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import Card, { CardVariant } from './components/Card';
-import EventsExample from './components/EventsExample';
-import List from './components/List';
-import TodoItem from './components/TodoItem';
-import UserItem from './components/UserItem';
-// import UserList from './components/UserList';
-import { ITodo, IUser } from './types/types';
+import React from 'react';
+import {BrowserRouter, NavLink, Route} from 'react-router-dom'
+import UsersPage from "./components/UsersPage";
+import TodosPage from "./components/TodosPage";
+import UserItemPage from "./components/UserItemPage";
+import TodoItemPage from "./components/TodoItemPage";
 
 const App = () => {
-  const [users, setUsers] = useState<IUser[]>([])
-  const [todos, setTodos] = useState<ITodo[]>([])
 
-  useEffect(() => {
-    fetchUsers()
-    fetchTodos()
-  }, [])
+    return (
+        <BrowserRouter>
+            <div>
+                <div>
+                    <NavLink to="/users">Пользователи</NavLink>
+                    <NavLink to='/todos'>Список дел</NavLink>
+                </div>
+                <Route path={'/users'} exact>
+                    <UsersPage/>
+                </Route>
+                <Route path={'/todos'} exact>
+                    <TodosPage/>
+                </Route>
+                <Route path={'/users/:id'}>
+                    <UserItemPage/>
+                </Route>
+                <Route path={'/todos/:id'}>
+                    <TodoItemPage/>
+                </Route>
+            </div>
+        </BrowserRouter>
 
-  async function fetchUsers() {
-    try {
-      const response = await axios.get<IUser[]>('https://jsonplaceholder.typicode.com/users')
-      setUsers(response.data)
-
-    } catch (e) {
-      alert(e)
-    }
-  }
-
-  async function fetchTodos() {
-    try {
-      const response = await axios.get<ITodo[]>('https://jsonplaceholder.typicode.com/todos?_limit=10')
-      setTodos(response.data)
-    } catch (e) {
-      alert(e)
-    }
-  }
-
-  return (
-    <div>
-      <EventsExample />
-      <Card onClick={(num) => console.log('click', num)} variant={CardVariant.outlined} width="200px" height="200px" >
-        <button>Button</button>
-      </Card>
-      <List
-        items={users}
-        renderItem={(user: IUser) => <UserItem user={user} key={user.id} />}
-      />
-      <List
-        items={todos}
-        renderItem={(todo: ITodo) => <TodoItem todo={todo} key={todo.id} />}
-      />
-    </div>
-  );
+    );
 };
 
 export default App;
-
-
-// const users: IUser[] = [
-//   { id: 1, name: 'Igor', email: 'asf@mainModule.ua', address: { city: 'Kharkiv', street: 'Sumskay', zipcode: '24245' } },
-//   { id: 2, name: 'Vlad', email: 'rs@mainModule.ua', address: { city: 'Kharkiv', street: 'Novgorodskay', zipcode: '2r2r2' } }
-
-// ]
