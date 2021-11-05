@@ -1,9 +1,8 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 
 const TodoItemPage: FC = () => {
     return (
         <div>
-
         </div>
     );
 };
