@@ -1,11 +1,11 @@
-import React, {FC, useEffect, useState} from 'react';
-import {IUser} from "../types/types";
+import React, { FC, useEffect, useState } from 'react';
+import { IUser } from "../types/types";
 import axios from "axios";
 import List from "./List";
 import UserItem from "./UserItem";
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-const UsersPage:FC = () => {
+const UsersPage: FC = () => {
     const [users, setUsers] = useState<IUser[]>([])
     const history = useHistory();
 
